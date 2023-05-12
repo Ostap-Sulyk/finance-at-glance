@@ -1,4 +1,4 @@
-package com.financeatglance.financeatglance.controler.advice;
+package com.financeatglance.financeatglance.controller.advice;
 
 import com.financeatglance.financeatglance.exceptions.EmailAlreadyExistException;
 import org.springframework.http.HttpStatus;

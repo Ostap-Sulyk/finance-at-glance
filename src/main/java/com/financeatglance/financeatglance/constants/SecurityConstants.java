@@ -1,2 +1,5 @@
-package com.financeatglance.financeatglance.security;public class SecurityConstants {
+package com.financeatglance.financeatglance.constants;
+
+public class SecurityConstants {
+    public static String REGISTER_PATH = "/register";
 }

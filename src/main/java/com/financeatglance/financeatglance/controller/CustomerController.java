@@ -1,10 +1,11 @@
-package com.financeatglance.financeatglance.controler;
+package com.financeatglance.financeatglance.controller;
 
 import com.financeatglance.financeatglance.entities.Customer;
 import com.financeatglance.financeatglance.entities.Dividend;
 import com.financeatglance.financeatglance.service.CustomerService;
 import com.financeatglance.financeatglance.service.DividendService;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -16,15 +17,20 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
+//TODO: refactor every method in controller to handle any logic in service
 @RestController
 @RequestMapping("")
+@AllArgsConstructor
 public class CustomerController {
     private final CustomerService customerService;
     private final DividendService dividendService;
 
-    public CustomerController(CustomerService customerService, DividendService dividendService) {
-        this.customerService = customerService;
-        this.dividendService = dividendService;
+    @PostMapping("/register")
+    public ResponseEntity<Customer> registerCustomer(@Valid @RequestBody Customer newCustomer, UriComponentsBuilder ucb) {
+        Customer savedCustomer = customerService.createCustomer(newCustomer);
+        URI locationOfNewCustomer = ucb.path("/{id}").buildAndExpand(savedCustomer.getId()).toUri();
+
+        return ResponseEntity.created(locationOfNewCustomer).build();
     }
 
     @PostMapping

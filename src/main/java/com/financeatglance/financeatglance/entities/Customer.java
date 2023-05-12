@@ -2,14 +2,11 @@ package com.financeatglance.financeatglance.entities;
 
 import com.financeatglance.financeatglance.pojos.Role;
 import com.financeatglance.financeatglance.validations.StrongPassword;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,10 +17,12 @@ import java.util.List;
 
 import static com.financeatglance.financeatglance.constants.ValidationMessages.*;
 
+//@Document(collection = "customers") // mongodb
 @Data
-@Document(collection = "customers")
+@Entity
 public class Customer implements UserDetails {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
     @NotBlank(message = BLANK_FIELD)
     @Pattern(regexp = "^[a-zA-Z]+$", message = CONTAIN_ONLY_LETTERS)
@@ -34,7 +33,7 @@ public class Customer implements UserDetails {
 
     @Email(message = INVALID_EMAIL)
     @NotBlank(message = BLANK_FIELD)
-    @Indexed(unique = true)
+//    @Indexed(unique = true) mongodb
     private String email;
 
     @StrongPassword(message = BLANK_FIELD)
@@ -42,7 +41,8 @@ public class Customer implements UserDetails {
 
     private Role role;
 
-    @DBRef
+//    @DBRef  mongodb reference
+    @OneToMany(mappedBy = "customer")
     private List<Dividend> dividends;
 
     @Override
