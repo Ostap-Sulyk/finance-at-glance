@@ -33,17 +33,9 @@ public class CustomerController {
         return ResponseEntity.created(locationOfNewCustomer).build();
     }
 
-    @PostMapping
-    public ResponseEntity<Customer> createCustomer(@Valid @RequestBody Customer newCustomer, UriComponentsBuilder ucb) {
-        Customer savedCustomer = customerService.createCustomer(newCustomer);
-        URI locationOfNewCustomer = ucb.path("/{id}").buildAndExpand(savedCustomer.getId()).toUri();
-        return ResponseEntity.created(locationOfNewCustomer).body(savedCustomer);
-
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<Customer> getCustomer(@PathVariable String id) {
-        return customerService.getCustomer(id)
+        return customerService.getCustomerById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

@@ -1,5 +1,6 @@
 package com.financeatglance.financeatglance.security.filter;
 
+import com.financeatglance.financeatglance.exceptions.ErrorMessageWrapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
