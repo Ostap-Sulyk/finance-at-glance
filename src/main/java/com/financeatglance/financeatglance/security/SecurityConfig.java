@@ -2,6 +2,7 @@ package com.financeatglance.financeatglance.security;
 
 import com.financeatglance.financeatglance.constants.SecurityConstants;
 import com.financeatglance.financeatglance.security.filter.AuthenticationFilter;
+import com.financeatglance.financeatglance.security.filter.ExceptionHandlerFilter;
 import com.financeatglance.financeatglance.security.manager.CustomAuthenticationManager;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -30,6 +31,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, SecurityConstants.REGISTER_PATH).permitAll()
                 .anyRequest().authenticated()
                 .and()
+                .addFilterBefore(new ExceptionHandlerFilter(), AuthenticationFilter.class)
                 .addFilter(authFilter)
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
