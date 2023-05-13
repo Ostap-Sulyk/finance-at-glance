@@ -19,7 +19,7 @@ public class CustomAuthenticationManager implements AuthenticationManager {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        Customer customer = customerService.getCustomer(authentication.getName()).orElse(null);
+        Customer customer = customerService.getCustomerByEmail(authentication.getName()).orElse(null);
 
         if (customer == null || !encoder.matches(authentication.getCredentials().toString(), customer.getPassword())) {
             throw new BadCredentialsException("Username or password is incorrect");
